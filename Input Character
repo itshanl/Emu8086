@@ -1,0 +1,74 @@
+; Author: Hannah Atuli
+; Input Character
+
+.model small
+.stack 100h
+.data
+mess1 db 'Input a character: $'
+mess2 db 0Dh,0Ah,'The input character is: $'
+alpha db 'alphabetic $'
+num db 'numeric $'
+spec db 'special character $'
+
+.code
+.startup
+ 
+mov ax, @data
+mov ds, ax
+
+; Prompt for input
+mov ah, 9
+lea dx, mess1
+int 21h
+
+; Input single character
+mov ah, 1
+int 21h
+mov bl, al          ; store input in BL
+
+; Show output message
+mov ah, 9
+lea dx, mess2
+int 21h
+
+; Check if alphabetic (A–Z or a–z)
+cmp bl, 'A'
+jl check_num
+cmp bl, 'Z'
+jle alpha_label
+cmp bl, 'a'
+jl check_num
+cmp bl, 'z'
+jle alpha_label
+
+check_num:
+
+; Check if numeric (0–9)
+cmp bl, '0'
+jl special_label
+cmp bl, '9'
+jle num_label
+
+special_label:
+
+lea dx, spec
+jmp display
+
+alpha_label:
+
+lea dx, alpha
+jmp display
+
+num_label:
+
+lea dx, num
+
+display:
+
+mov ah, 9
+int 21h
+
+; Exit program
+mov ah, 4Ch
+int 21h
+end

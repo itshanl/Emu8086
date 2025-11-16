@@ -1,0 +1,89 @@
+; Author: Hannah Atuli
+; Assembly Language Center Display
+
+.model small
+.stack 100
+.data
+ lett db 'a' 
+ lett1 db 'n'
+ num db '0'
+ num1 db '9'        
+ mess db "Assembly Language $"
+ lfbs db 10, 8,'$'
+ 
+ .code
+ .startup
+ 
+ mov ax, 0003
+ int 10h  
+ 
+ mov ah, 02
+ mov dh, 12
+ mov dl, 31
+ int 10h
+ 
+ mov ah, 09
+ lea dx, mess
+ int 21h
+
+ mov ah, 02
+ mov dh, 1
+ mov dl, 33
+ int 10h
+ 
+ mov cx, 13
+ xx: mov ah,02
+ mov dl,lett
+ int 21h
+ inc lett
+ loop xx
+  
+ mov ah, 02
+ mov dh, 23
+ mov dl, 33
+ int 10h
+ 
+ mov cx, 13
+ aa: mov ah,02
+ mov dl,lett1
+ int 21h
+ inc lett1
+ loop aa   
+ 
+ mov ah, 02
+ mov dh, 7
+ mov dl, 1
+ int 10h
+ 
+ mov cx, 10
+ bb:mov ah, 02
+ mov dl, num
+ int 21h
+ 
+ mov ah, 09
+ lea dx, lfbs
+ int 21h
+ inc num
+ 
+ loop bb
+       
+ mov ah, 02
+ mov dh, 7
+ mov dl, 78
+ int 10h
+ 
+ mov cx, 10
+ cc:mov ah, 02
+ mov dl, num1
+ int 21h
+ 
+ mov ah, 09
+ lea dx, lfbs
+ int 21h
+ dec num1
+ 
+ loop cc
+ 
+ mov ah, 4ch
+ int 21h
+ end     
